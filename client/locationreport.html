@@ -1,0 +1,84 @@
+<head>
+  <title>Location Report</title>
+</head>
+
+<body>
+  {{> header}}
+  {{> layout}}
+</body>
+
+<template name="layout">
+  {{yield}}
+</template>
+
+<template name="header">
+  <a href="/">Home</a>
+  <a href="/profile/">Your Profile</a>
+  {{loginButtons}}
+</template>
+
+<template name="page">
+
+  <h1>Location Report</h1>
+
+  <h2>Create Team</h2>
+  <input id="newTeamName" placeholder="Ushahidi">
+  <input class="createTeam" type="button" value="Create Team" />
+
+  <h2>Your Teams</h2>
+  <ul>
+  {{#each teams}}
+      {{> teamLi}}
+    {{/each}}
+  </ul>
+
+</template>
+
+<template name="profile">
+
+  {{#if currentUser}}
+
+    <h1>Your Profile</h1>
+
+    Name: <input id="updateProfileName" placeholder="Bill Clinton" value="{{currentUser.profile.name}}">
+    <br/>
+    <input class="updateProfile" type="button" value="Update Profile" />
+
+  {{else}}
+
+    <h1>Create an account or log in first</h1>
+
+  {{/if}}
+
+</template>
+
+<template name="teamLi">
+  <li><a href="/team/{{_id}}/">{{name}}</a></li>
+</template>
+
+<template name="team">
+  <h1>Team: {{team.name}}</h1>
+  {{#if administrator}}
+    <h2>Admin: {{administrator.profile.name}}</h2>
+  {{/if}}
+
+  <h2>Members</h2>
+  <ul>
+    {{#each members}}
+      {{> memberLi}}
+    {{/each}}
+  </ul>
+</template>
+
+<template name="memberLi">
+  <li><a href="#">{{profile.name}}</a></li>
+</template>
+
+
+
+
+
+
+
+
+
