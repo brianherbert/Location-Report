@@ -63,11 +63,23 @@ Template.team.members = function () {
   return Meteor.users.find({_id: { $in : tm.members }}).fetch();
 };
 
+Template.profile.tweets = function() {
+  Meteor.call('update_tweet_geo',function(err, data){
+    console.log(data);
+  });
+  /*
+  Twit.get('search/tweets', { q: 'banana since:2011-11-11', count: 100 }, function(err, reply) {
+    console.log('Twit searched.');
+  })
+  */
+};
+
 // Update a user profile
 Template.profile.events({
   'click input.updateProfile' : function () {
     var name = document.getElementById("updateProfileName").value;
-    Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile.name":name}});
+    var twitterHandle = document.getElementById("updateTwitterHandle").value;
+    Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile.name":name,"profile.twitterHandle":twitterHandle}});
   }
 });
 

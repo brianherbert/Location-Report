@@ -40,9 +40,11 @@
 
     <h1>Your Profile</h1>
 
-    Name: <input id="updateProfileName" placeholder="Bill Clinton" value="{{currentUser.profile.name}}">
-    <br/>
+    Name: <input id="updateProfileName" placeholder="Bill Clinton" value="{{currentUser.profile.name}}"><br/>
+    Twitter: @<input id="updateTwitterHandle" placeholder="" value="{{currentUser.profile.twitterHandle}}"><br/>
     <input class="updateProfile" type="button" value="Update Profile" />
+
+    {{tweets}}
 
   {{else}}
 
