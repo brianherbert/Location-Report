@@ -28,8 +28,8 @@
   <h2>Your Teams</h2>
   <ul>
   {{#each teams}}
-      {{> teamLi}}
-    {{/each}}
+    {{> teamLi}}
+  {{/each}}
   </ul>
 
 </template>
@@ -42,9 +42,13 @@
 
     Name: <input id="updateProfileName" placeholder="Bill Clinton" value="{{currentUser.profile.name}}"><br/>
     Twitter: @<input id="updateTwitterHandle" placeholder="" value="{{currentUser.profile.twitterHandle}}"><br/>
+    Instagram: <input id="updateInstagramHandle" placeholder="" value="{{currentUser.profile.instagramHandle}}"><br/>
     <input class="updateProfile" type="button" value="Update Profile" />
 
-    {{tweets}}
+    <hr/>
+
+    Current Location: {{latest.geo.lat}}, {{latest.geo.lon}} <small>from {{latest.service}}</small><br/>
+    <input class="updateLocation" type="button" value="Update Current Location" />
 
   {{else}}
 
@@ -70,10 +74,13 @@
       {{> memberLi}}
     {{/each}}
   </ul>
+
+  <h2>Add Member</h2>
+  Todo: Form here to add member by email address.
 </template>
 
 <template name="memberLi">
-  <li><a href="#">{{profile.name}}</a></li>
+  <li><a href="#">{{profile.name}}</a> {{profile.latest.geo.lat}}, {{profile.latest.geo.lon}} <small>from {{profile.latest.service}}</small></li>
 </template>
 
 

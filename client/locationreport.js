@@ -1,4 +1,9 @@
+Meteor.startup(function () {
+  Session.set('currentTeamId', false);
+});
+
 Teams = new Meteor.Collection("teams");
+Locations = new Meteor.Collection("locations");
 
 Router.configure({
   layoutTemplate: 'layout'
@@ -60,26 +65,53 @@ Template.team.members = function () {
   if(!tm) {
     return false;
   }
-  return Meteor.users.find({_id: { $in : tm.members }}).fetch();
+  var members = Meteor.users.find({_id: { $in : tm.members }}).fetch();
+
+  return members;
 };
 
-Template.profile.tweets = function() {
-  Meteor.call('update_tweet_geo',function(err, data){
-    console.log(data);
-  });
-  /*
-  Twit.get('search/tweets', { q: 'banana since:2011-11-11', count: 100 }, function(err, reply) {
-    console.log('Twit searched.');
-  })
-  */
+Template.profile.latest = function () {
+  var loc = Locations.findOne({_id:Meteor.user()._id});
+  if(loc === undefined) {
+    loc = {latest:{geo:{lat:0,lon:0},timestamp:0,service:null}};
+  }
+  return loc.latest;
 };
+
+
 
 // Update a user profile
 Template.profile.events({
   'click input.updateProfile' : function () {
-    var name = document.getElementById("updateProfileName").value;
-    var twitterHandle = document.getElementById("updateTwitterHandle").value;
-    Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile.name":name,"profile.twitterHandle":twitterHandle}});
+    var name            = document.getElementById("updateProfileName").value;
+    var twitterHandle   = document.getElementById("updateTwitterHandle").value;
+    var instagramHandle = document.getElementById("updateInstagramHandle").value;
+
+    var data = {"profile.name":name,
+                "profile.twitterHandle":twitterHandle,
+                "profile.instagramHandle":instagramHandle
+              }
+
+    // Make sure we aren't setting the Instagram User ID if we don't have an instagram handle anymore.
+    if(!instagramHandle){
+      data["profile.instagramUserId"] = "";
+    }
+
+    Meteor.users.update({_id:Meteor.user()._id}, {$set:data});
+
+    if(instagramHandle) {
+      Meteor.call('updateInstagramUserId',function(err, data){
+        console.log('Finished updating users Instagram user ID');
+      });
+    }
+  },
+  'click input.updateLocation' : function () {
+    Meteor.call('updateTweetGeo',function(err, data){
+      console.log(data);
+    });
+    Meteor.call('updateInstagramGeo',function(err, data){
+      console.log(data);
+    });
   }
 });
 
@@ -95,8 +127,4 @@ Template.page.events({
                 });
     document.getElementById("newTeamName").value = '';
   }
-});
-
-Meteor.startup(function () {
-  Session.set('currentTeamId', false);
 });
