@@ -8,47 +8,117 @@
 </body>
 
 <template name="layout">
-  {{yield}}
+  <div class="container">
+    {{yield}}
+  </div>
 </template>
 
 <template name="header">
-  <a href="/">Home</a>
-  <a href="/profile/">Your Profile</a>
-  {{loginButtons}}
+
+  <nav class="navbar navbar-default" role="navigation">
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Location Report</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/">Teams</a></li>
+        <li><a href="/profile/">Profile</a></li>
+        {{loginButtons}}
+      </ul>
+    </div><!-- /.navbar-collapse -->
+
+  </nav>
+
 </template>
 
 <template name="page">
+  <div class="row">
+    <div class="col-md-4">
 
-  <h1>Location Report</h1>
+      <h1>Teams</h1>
 
-  <h2>Create Team</h2>
-  <input id="newTeamName" placeholder="Ushahidi">
-  <input class="createTeam" type="button" value="Create Team" />
+      <h2>Your Teams</h2>
+      <ul class="list-unstyled">
+      {{#each teams}}
+        {{> teamLi}}
+      {{/each}}
+      </ul>
 
-  <h2>Your Teams</h2>
-  <ul>
-  {{#each teams}}
-    {{> teamLi}}
-  {{/each}}
-  </ul>
+    </div>
+    <div class="col-md-4">
 
+      <h2>Create Team</h2>
+      <form role="form">
+        <div class="form-group">
+          <label for="newTeamName">Team Name</label>
+          <input type="text" class="form-control" id="newTeamName" placeholder="Team Name">
+        </div>
+        <button class="createTeam btn btn-default" type="button">Create Team</button>
+      </form>
+
+    </div>
+  </div>
 </template>
 
 <template name="profile">
 
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Profile</h1>
+    </div>
+  </div>
+
   {{#if currentUser}}
 
-    <h1>Your Profile</h1>
+  <div class="row">
+    <div class="col-md-4">
 
-    Name: <input id="updateProfileName" placeholder="Bill Clinton" value="{{currentUser.profile.name}}"><br/>
-    Twitter: @<input id="updateTwitterHandle" placeholder="" value="{{currentUser.profile.twitterHandle}}"><br/>
-    Instagram: <input id="updateInstagramHandle" placeholder="" value="{{currentUser.profile.instagramHandle}}"><br/>
-    <input class="updateProfile" type="button" value="Update Profile" />
+      <h2>Your Details</h2>
 
-    <hr/>
+      <form role="form">
 
-    Current Location: {{latest.geo.lat}}, {{latest.geo.lon}} <small>from {{latest.service}}</small><br/>
-    <input class="updateLocation" type="button" value="Update Current Location" />
+        <div class="form-group">
+          <label for="updateProfileName">Name</label>
+          <input type="text" class="form-control" id="updateProfileName" placeholder="Your Name" value="{{currentUser.profile.name}}">
+        </div>
+
+        <div class="form-group">
+          <label for="updateTwitterHandle">Twitter</label>
+          <div class="input-group">
+            <span class="input-group-addon">@</span>
+            <input type="text" class="form-control" id="updateTwitterHandle" placeholder="Twitter Handle" value="{{currentUser.profile.twitterHandle}}">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="updateInstagramHandle">Instagram</label>
+          <input type="text" class="form-control" id="updateInstagramHandle" placeholder="Your Instagram Username" value="{{currentUser.profile.instagramHandle}}"><br/>
+        </div>
+
+        <button class="updateProfile btn btn-default" type="button">Update Profile</button>
+
+      </form>
+
+    </div>
+    <div class="col-md-8">
+
+      <h2>Current Location</h2>
+
+      Current Location: {{latest.geo.lat}}, {{latest.geo.lon}} <small>from {{latest.service}}</small><br/>
+      <input class="updateLocation" type="button" value="Update Current Location" />
+    </div>
+
+  </div>
 
   {{else}}
 
@@ -63,20 +133,38 @@
 </template>
 
 <template name="team">
-  <h1>Team: {{team.name}}</h1>
-  {{#if administrator}}
-    <h2>Admin: {{administrator.profile.name}}</h2>
-  {{/if}}
 
-  <h2>Members</h2>
-  <ul>
-    {{#each members}}
-      {{> memberLi}}
-    {{/each}}
-  </ul>
+  <div class="row">
+    <div class="col-md-12">
+      <h1>{{team.name}} <small>Administered by {{administrator.profile.name}}</small></h1>
+    </div>
+  </div>
 
-  <h2>Add Member</h2>
-  Todo: Form here to add member by email address.
+  <div class="row">
+    <div class="col-md-4">
+      <!--
+      {{#if administrator}}
+        <h2>Admin: {{administrator.profile.name}}</h2>
+      {{/if}}
+      -->
+
+      <h2>Members</h2>
+      <ul class="list-unstyled">
+        {{#each members}}
+          {{> memberLi}}
+        {{/each}}
+      </ul>
+
+      <h2>Add Member</h2>
+      <input id="inviteToTeamEmail" placeholder="coworker@company.com">
+      <input class="inviteToTeam" type="button" value="Invite" />
+
+    </div>
+    <div class="col-md-8">
+      <h2>Map</h2>
+      {{#constant}}<div id="map" data-geojson="{{geojson}}">{{/constant}}
+    </div>
+  </div>
 </template>
 
 <template name="memberLi">

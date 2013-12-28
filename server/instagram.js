@@ -1,6 +1,4 @@
-Meteor.startup(function () {
-  Igrm = {client_id:'',client_secret:''};
-});
+
 
 Meteor.methods({
   updateInstagramGeo: function () {
@@ -15,7 +13,7 @@ Meteor.methods({
     try {
       //console.log('Calling https://api.instagram.com/v1/users/'+Meteor.user().profile.instagramUserId+'/media/recent/');
 
-      var params = {client_id: Igrm.client_id};
+      var params = {client_id: Meteor.settings.services.instagram.client_id};
       var min_id = false;
 
       var loc = Locations.findOne({_id:Meteor.user()._id});
@@ -49,7 +47,7 @@ Meteor.methods({
   },
   updateInstagramUserId: function () {
     try {
-      HTTP.call("GET", "https://api.instagram.com/v1/users/search/", {params: {q: Meteor.user().profile.instagramHandle, count: 1, client_id: Igrm.client_id}}, function(error,users){
+      HTTP.call("GET", "https://api.instagram.com/v1/users/search/", {params: {q: Meteor.user().profile.instagramHandle, count: 1, client_id: Meteor.settings.services.instagram.client_id}}, function(error,users){
         if(users.data.data.length == 0) {
           var instagramUserId = "";
         } else {

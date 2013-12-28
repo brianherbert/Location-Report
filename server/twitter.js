@@ -1,12 +1,6 @@
 Meteor.startup(function () {
   Future = Npm.require('fibers/future');
-
-  Twit = new TwitMaker({
-      consumer_key:         '',
-      consumer_secret:      '',
-      access_token:         '',
-      access_token_secret:  ''
-  });
+  Twit = new TwitMaker(Meteor.settings.services.twitter);
 });
 
 Meteor.methods({

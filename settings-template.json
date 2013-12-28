@@ -1,0 +1,14 @@
+{
+  "services": {
+    "twitter": {
+      "consumer_key": "****",
+      "consumer_secret": "****",
+      "access_token": "****",
+      "access_token_secret": "****"
+    },
+    "instagram": {
+      "client_id": "****",
+      "client_secret": "****"
+    }
+  }
+}
