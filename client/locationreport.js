@@ -88,9 +88,9 @@ Meteor.methods({
           var img = feature.properties.icon+'?size=50'
           var icon = L.icon({
                         iconUrl:     img,
-                        iconSize:    [50,50],
-                        iconAnchor:  [50,50],
-                        popupAnchor: [125,-6],
+                        iconSize:    [60,50], // +10 width for CSS 10px border
+                        iconAnchor:  [30,25], // Middle
+                        popupAnchor: [145,19],
                         className:   'avatarIcon'
                       });
           return L.marker(latlng, {icon: icon});

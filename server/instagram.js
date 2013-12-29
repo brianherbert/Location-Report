@@ -36,7 +36,7 @@ Meteor.methods({
             });
             return;
           }
-        } // End HTTP call
+        }
 
       });
       return true;
