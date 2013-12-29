@@ -6,6 +6,11 @@ Template.profile.latest = function () {
   return loc.latest;
 };
 
+Template.profile.rendered = function () {
+  // Hide map
+  $('#map').css('height',0);
+};
+
 
 // Update a user profile
 Template.profile.events({

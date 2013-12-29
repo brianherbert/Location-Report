@@ -1,4 +1,27 @@
+.main-navbar {
+	margin-bottom:0;
+}
+
 #map {
-	height:400px;
+	height:500px;
 	background-color:#fff;
+}
+
+.avatarIcon {
+	border-radius:10px 0px 0px 10px;
+}
+
+.leaflet-popup-content-wrapper {
+	border-radius:10px 10px 10px 0;
+	padding:1px;
+	width:250px;
+}
+
+.leaflet-popup-content-wrapper .leaflet-popup-content {
+	/*background-color:green;*/
+}
+
+.leaflet-popup-tip-container {
+	height:0;
+	width:0;
 }

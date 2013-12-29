@@ -15,7 +15,7 @@
 
 <template name="header">
 
-  <nav class="navbar navbar-default" role="navigation">
+  <nav class="navbar navbar-default main-navbar" role="navigation">
 
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -25,7 +25,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Location Report</a>
+      <a class="navbar-brand" href="/">Location Report</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -38,6 +38,8 @@
     </div><!-- /.navbar-collapse -->
 
   </nav>
+
+  {{#constant}}<div id="map"></div>{{/constant}}
 
 </template>
 
@@ -86,6 +88,12 @@
       <h2>Your Details</h2>
 
       <form role="form">
+
+        <div class="form-group">
+          <img src="{{currentUser.profile.avatar}}?size=80" alt="Your Avatar" class="img-thumbnail" /><br/>
+          <label for="updateAvatarUrl">Avatar</label>
+          <input type="text" class="form-control" id="updateAvatarUrl" placeholder="https://someURL.com" value="{{currentUser.profile.avatar}}">
+        </div>
 
         <div class="form-group">
           <label for="updateProfileName">Name</label>
@@ -161,8 +169,8 @@
 
     </div>
     <div class="col-md-8">
-      <h2>Map</h2>
-      {{#constant}}<div id="map" data-geojson="{{geojson}}">{{/constant}}
+      <h2>GeoJSON</h2>
+      {{geojson}}
     </div>
   </div>
 </template>
