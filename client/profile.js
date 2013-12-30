@@ -39,10 +39,10 @@ Template.profile.events({
 
   },
   'click button.updateLocation' : function () {
-    Meteor.call('updateTweetGeo',function(err, data){
+    Meteor.call('updateTweetGeo',Meteor.user()._id,function(err, data){
       // Updating Tweet Geo Complete
     });
-    Meteor.call('updateInstagramGeo',function(err, data){
+    Meteor.call('updateInstagramGeo',Meteor.user()._id,function(err, data){
       // Updating Instagram Geo Complete
     });
   },

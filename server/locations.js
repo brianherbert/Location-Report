@@ -5,10 +5,10 @@ Meteor.startup(function () {
 });
 
 Meteor.methods({
-  // geo - lat, lon object
+  // userId - userId for the person we're updating
   // service - string for service name ("facebook", "twitter", "instagram", etc)
   // data - object with details to save ie: {geo:{...},since_id:"78h329y8938",...}
-  updateLocation: function (service, data) {
+  updateLocation: function (userId, service, data) {
 
     console.log('Updating with service: '+service);
 
@@ -27,7 +27,7 @@ Meteor.methods({
 
       // Get the latest data and compare the timestamp
       var newLatest = false;
-      var loc = Locations.findOne({_id:Meteor.user()._id});
+      var loc = Locations.findOne({_id:userId});
       if(loc === undefined
          || (  loc !== undefined
             && loc.latest !== undefined
@@ -45,13 +45,13 @@ Meteor.methods({
         updateData['latest'] = latest; // for locations collection
 
         // We will call this often so denormalize by duplicating it in the user profile
-        Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile.latest":latest}});
+        Meteor.users.update({_id:userId}, {$set:{"profile.latest":latest}});
 
       }
 
       console.log(updateData);
 
-      Locations.update({_id: Meteor.user()._id},{$set:updateData},{upsert:true});
+      Locations.update({_id: userId},{$set:updateData},{upsert:true});
 
     });
 

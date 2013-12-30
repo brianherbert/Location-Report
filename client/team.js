@@ -80,7 +80,7 @@ Template.team.tzDate = function () {
 Template.team.tzTime = function () {
   if(this.profile.latest.timezone === undefined)
     return 'Unknown Timezone';
-  return moment().tz(this.profile.latest.timezone).format('h:mm:ss a');
+  return moment().tz(this.profile.latest.timezone).format('h:mm a');
 };
 
 Template.team.rendered = function() {
@@ -102,5 +102,14 @@ Template.team.events({
   'click a.selectFlag' : function () {
     $('.selectedFlag').hide();
     $('.selectedFlag[data-userId="'+this._id+'"]').show();
+  },
+  'click a.updateUserLocation' : function () {
+    console.log(this._id);
+    Meteor.call('updateTweetGeo',this._id,function(err, data){
+      // Updating Tweet Geo Complete
+    });
+    Meteor.call('updateInstagramGeo',this._id,function(err, data){
+      // Updating Instagram Geo Complete
+    });
   }
 });

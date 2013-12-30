@@ -45,6 +45,11 @@ Template.page.teams = function () {
   return teams;
 };
 
+Template.header.title = function () {
+  //return Meteor.settings.title;
+  // TODO: Get the title out of settings to work on the client side
+  return 'Location Report';
+};
 
 Template.header.rendered = function () {
   // Start fresh with the map
