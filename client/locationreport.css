@@ -27,3 +27,16 @@
 	height:0;
 	width:0;
 }
+
+.serviceName {
+	text-transform: capitalize;
+}
+
+.selectedFlag {
+	font-size:15px;
+	background-color:#fff;
+	position:absolute;
+	padding:5px;
+	border-bottom-right-radius:5px;
+	display:none;
+}

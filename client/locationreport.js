@@ -50,7 +50,7 @@ Template.header.rendered = function () {
   // Start fresh with the map
   if(map === undefined)
   {
-    console.log('Create new map');
+    //console.log('Create new map');
     //var southWest = new L.LatLng(-90, -270),
     //    northEast = new L.LatLng(90, 270);
     map = L.map('map',{
@@ -58,15 +58,16 @@ Template.header.rendered = function () {
                 //maxBounds: new L.LatLngBounds(southWest, northEast),
                 minZoom:2
               }).fitWorld();
-    L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
+
+    L.tileLayer('https://www.mapbox.com/v3/ushahidi.gm9nnleo/{z}/{x}/{y}.png', {
         maxZoom: 18,
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
       }).addTo(map);
   }
 };
 
 Template.page.rendered = function () {
-  console.log('Template.page.rendered');
+  //console.log('Template.page.rendered');
   if(globalLayerGroup !== undefined) {
     globalLayerGroup.clearLayers();
   }
@@ -120,7 +121,7 @@ Template.page.events({
     $('button.createTeam').addClass('btn-success');
     $('button.createTeam').text('Team Created!');
     Meteor.setTimeout(function(){
-      console.log('clear it.');
+      //console.log('clear it.');
       $('button.createTeam').removeClass('btn-success');
       $('button.createTeam').text('Create Team');
     },2000);

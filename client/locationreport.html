@@ -1,5 +1,6 @@
 <head>
   <title>Location Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -122,8 +123,9 @@
 
       <h2>Current Location</h2>
 
-      Current Location: {{latest.geo.lat}}, {{latest.geo.lon}} <small>from {{latest.service}}</small><br/>
-      <input class="updateLocation" type="button" value="Update Current Location" />
+      Current Location: {{currentUser.profile.latest.geo.lat}}, {{currentUser.profile.latest.geo.lon}} <small>from {{currentUser.profile.latest.service}}</small><br/>
+      <button class="updateLocation btn btn-default" type="button">Update Current Location</button>
+      <button class="deleteLocation btn btn-danger" type="button">Delete All Locations</button>
     </div>
 
   </div>
@@ -143,40 +145,74 @@
 <template name="team">
 
   <div class="row">
+    <div class="col-md-12 text-right">
+      <small><a href="#" class="getGeoJson"><i class="fa fa-code text-muted"></i> Get GeoJSON</a></small>
+      <textarea class="form-control hidden geoJsonArea">{{geojson}}</textarea>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-md-12">
       <h1>{{team.name}} <small>Administered by {{administrator.profile.name}}</small></h1>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-2">
       <!--
       {{#if administrator}}
         <h2>Admin: {{administrator.profile.name}}</h2>
       {{/if}}
       -->
 
-      <h2>Members</h2>
+      <h4>Members</h4>
       <ul class="list-unstyled">
         {{#each members}}
-          {{> memberLi}}
+          <li><a href="#" class="selectFlag" data-userId="{{_id}}">{{profile.name}}</a></li>
         {{/each}}
       </ul>
 
-      <h2>Add Member</h2>
+      <h4>Add Member</h4>
       <input id="inviteToTeamEmail" placeholder="coworker@company.com">
       <input class="inviteToTeam" type="button" value="Invite" />
 
     </div>
-    <div class="col-md-8">
-      <h2>GeoJSON</h2>
-      {{geojson}}
+    <div class="col-md-10">
+
+      <div class="row">
+      {{#each members}}
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+          <div class="thumbnail">
+            <i class="fa fa-star text-info selectedFlag" data-userId="{{_id}}"></i>
+            <img src="{{profile.avatar}}?size=200" class="img-responsive" alt="{{profile.name}}'s Avatar">
+            <div class="caption">
+              <h5>{{profile.name}}</h5>
+              {{#if profile.latest.timezone}}
+              <ul class="list-unstyled">
+                <li>{{profile.latest.timezone}}</li>
+                <li><i class="fa fa-clock-o text-muted"></i> {{tzTime}}</li>
+                <li><i class="fa fa-calendar-o text-muted"></i> {{tzDate}}</li>
+              </ul>
+              {{/if}}
+              <ul class="list-unstyled">
+                <li><i class="fa fa-{{profile.latest.service}} text-muted"></i> <span class="serviceName">{{profile.latest.service}}</span></li>
+              </ul>
+
+              <p><a href="#" class="btn btn-default btn-sm" role="button"><i class="fa fa-refresh"></i> Location</a></p>
+
+            </div>
+          </div>
+        </div>
+      {{/each}}
+      </div>
+
+
+
+
+
+
     </div>
   </div>
-</template>
-
-<template name="memberLi">
-  <li><a href="#">{{profile.name}}</a> {{profile.latest.geo.lat}}, {{profile.latest.geo.lon}} <small>from {{profile.latest.service}}</small></li>
 </template>
 
 

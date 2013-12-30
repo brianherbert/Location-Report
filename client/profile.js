@@ -1,16 +1,8 @@
-Template.profile.latest = function () {
-  var loc = Locations.findOne({_id:Meteor.user()._id});
-  if(loc === undefined) {
-    loc = {latest:{geo:{lat:0,lon:0},timestamp:0,service:null}};
-  }
-  return loc.latest;
-};
 
 Template.profile.rendered = function () {
   // Hide map
   $('#map').css('height',0);
 };
-
 
 // Update a user profile
 Template.profile.events({
@@ -46,12 +38,17 @@ Template.profile.events({
     },2000);
 
   },
-  'click input.updateLocation' : function () {
+  'click button.updateLocation' : function () {
     Meteor.call('updateTweetGeo',function(err, data){
       // Updating Tweet Geo Complete
     });
     Meteor.call('updateInstagramGeo',function(err, data){
       // Updating Instagram Geo Complete
+    });
+  },
+  'click button.deleteLocation' : function () {
+    Meteor.call('deleteLocations',function(err, data){
+      // All locations removed
     });
   }
 });

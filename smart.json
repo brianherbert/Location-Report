@@ -5,6 +5,9 @@
     "moment": {},
     "bootstrap-3": {},
     "accounts-ui-bootstrap-3": {},
-    "leaflet": {}
+    "leaflet": {},
+    "moment-timezone": {},
+    "geotz": {},
+    "font-awesome-4": {}
   }
 }

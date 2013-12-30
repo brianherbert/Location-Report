@@ -7,7 +7,10 @@
       "moment": {},
       "bootstrap-3": {},
       "accounts-ui-bootstrap-3": {},
-      "leaflet": {}
+      "leaflet": {},
+      "moment-timezone": {},
+      "geotz": {},
+      "font-awesome-4": {}
     },
     "packages": {
       "iron-router": {
@@ -39,6 +42,21 @@
         "git": "https://github.com/bevanhunt/meteor-leaflet.git",
         "tag": "v0.1.8",
         "commit": "8a3d0f53734e4fe3efc3e6e39aa3da0209e2ec8e"
+      },
+      "moment-timezone": {
+        "git": "https://github.com/acreeger/meteor-moment-timezone",
+        "tag": "v0.0.1.4",
+        "commit": "feb364efb1ec0cefb870d5981b2b836b45211455"
+      },
+      "geotz": {
+        "git": "https://github.com/brianherbert/meteor-geotz.git",
+        "tag": "v0.0.1",
+        "commit": "cf2cad6393038818f78c16be344d171a7b0fc77f"
+      },
+      "font-awesome-4": {
+        "git": "https://github.com/michaelbishop/meteor-font-awesome-4.git",
+        "tag": "v4.0.0",
+        "commit": "c28b5a0f2a2bd233c495642b40a167eda95172f5"
       }
     }
   }

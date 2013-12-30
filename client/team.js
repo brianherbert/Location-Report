@@ -71,16 +71,22 @@ Template.team.geojson = function () {
   return JSON.stringify(geojson);
 };
 
-Template.team.rendered = function() {
-  $('#map').css('height',$(document).height()/2);
+Template.team.tzDate = function () {
+  if(this.profile.latest.timezone === undefined)
+    return 'Unknown Date';
+  return moment().tz(this.profile.latest.timezone).format('MMM Do');
 };
 
-Template.team.destroyed = function () {
-  console.log('TODO: Wipe out map entirely');
-  //console.log(globalLayerGroup);
-  //if(globalLayerGroup !== undefined) {
-    //globalLayerGroup.clearLayers();
-  //}
+Template.team.tzTime = function () {
+  if(this.profile.latest.timezone === undefined)
+    return 'Unknown Timezone';
+  return moment().tz(this.profile.latest.timezone).format('h:mm:ss a');
+};
+
+Template.team.rendered = function() {
+  var height = $(document).height()/2;
+  if(height > 500) height = 500;
+  $('#map').css('height',height);
 };
 
 Template.team.events({
@@ -89,5 +95,12 @@ Template.team.events({
     Meteor.call('inviteToTeam',Session.get('currentTeamId'),email,function(err, data){
       // Invite Complete
     });
+  },
+  'click a.getGeoJson' : function () {
+    $('.geoJsonArea').removeClass('hidden');
+  },
+  'click a.selectFlag' : function () {
+    $('.selectedFlag').hide();
+    $('.selectedFlag[data-userId="'+this._id+'"]').show();
   }
 });
