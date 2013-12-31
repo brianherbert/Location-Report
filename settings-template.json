@@ -1,5 +1,6 @@
 {
-  "title" : "Loc Rep",
+  "title": "Location Report",
+  "updateCronTimer": "3600000",
   "services": {
     "twitter": {
       "consumer_key": "****",

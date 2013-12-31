@@ -8,6 +8,7 @@
     "leaflet": {},
     "moment-timezone": {},
     "geotz": {},
-    "font-awesome-4": {}
+    "font-awesome-4": {},
+    "cron-tick": {}
   }
 }

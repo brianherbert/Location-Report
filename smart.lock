@@ -10,7 +10,8 @@
       "leaflet": {},
       "moment-timezone": {},
       "geotz": {},
-      "font-awesome-4": {}
+      "font-awesome-4": {},
+      "cron-tick": {}
     },
     "packages": {
       "iron-router": {
@@ -57,6 +58,11 @@
         "git": "https://github.com/michaelbishop/meteor-font-awesome-4.git",
         "tag": "v4.0.0",
         "commit": "c28b5a0f2a2bd233c495642b40a167eda95172f5"
+      },
+      "cron-tick": {
+        "git": "https://github.com/tmeasday/meteor-cron.git",
+        "tag": "v0.0.4",
+        "commit": "44cff9116af510fe53704fdeeff57c444ceb75ba"
       }
     }
   }
