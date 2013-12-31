@@ -153,7 +153,7 @@
 
   <div class="row">
     <div class="col-md-12">
-      <h1>{{team.name}} <small>Administered by {{administrator.profile.name}}</small></h1>
+      <h1>{{team.name}}</h1>
     </div>
   </div>
 
@@ -170,11 +170,15 @@
         {{#each members}}
           <li><a href="#" class="selectFlag" data-userId="{{_id}}">{{profile.name}}</a></li>
         {{/each}}
-      </ul>
 
-      <h4>Add Member</h4>
-      <input id="inviteToTeamEmail" placeholder="coworker@company.com">
-      <input class="inviteToTeam" type="button" value="Invite" />
+        {{#if isAdministrator}}
+          <li><hr/></li>
+          <li><input id="inviteToTeamEmail" class="form-control input-sm" placeholder="friend@co.com"></li>
+          <li><button class="inviteToTeam btn btn-default btn-xs" type="button"><i class="fa fa-envelope-o text-muted"></i> Invite</button></li>
+          <li class="text-muted"><small>Invitation sent via email or automatic if the email is already registerd.</small></li>
+          <li><hr/></li>
+        {{/if}}
+      </ul>
 
     </div>
     <div class="col-md-10">
@@ -189,26 +193,26 @@
               <h5>{{profile.name}}</h5>
               {{#if profile.latest.timezone}}
               <ul class="list-unstyled">
-                <li>{{profile.latest.timezone}}</li>
+                <li>{{tzOffset}}</li>
                 <li><i class="fa fa-clock-o text-muted"></i> {{tzTime}}</li>
                 <li><i class="fa fa-calendar-o text-muted"></i> {{tzDate}}</li>
               </ul>
               {{/if}}
               <ul class="list-unstyled">
-                <li><i class="fa fa-{{profile.latest.service}} text-muted"></i> <span class="serviceName">{{profile.latest.service}}</span></li>
+                <li><small><i class="fa fa-{{profile.latest.service}} text-muted"></i> <span class="serviceName">{{profile.latest.service}}</span></small></li>
               </ul>
 
-              <p><a href="#" class="btn btn-default btn-sm updateUserLocation" role="button"><i class="fa fa-refresh"></i> Location</a></p>
+              <p>
+                <a href="#" class="btn btn-default btn-sm updateUserLocation" role="button"><i class="fa fa-refresh"></i> Location</a>
+                <br/>
+                <small style="text-muted">Changed {{updatedTimeAgo}}</small>
+              </p>
 
             </div>
           </div>
         </div>
       {{/each}}
       </div>
-
-
-
-
 
 
     </div>

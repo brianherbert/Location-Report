@@ -5,7 +5,11 @@ Template.team.team = function () {
 };
 
 // The admin of a team
-Template.team.administrator = function () {
+Template.team.isAdministrator = function () {
+
+  if(!Meteor.user()) {
+    return false;
+  }
 
   var tm = Teams.findOne({'_id':Session.get("currentTeamId")});
   if(!tm) {
@@ -17,7 +21,23 @@ Template.team.administrator = function () {
     return false;
   }
 
+  if (Meteor.user()._id != admin._id) {
+    return false;
+  }
+
   return admin;
+};
+
+// True is the current user is a member of the current team
+Template.team.isMember = function () {
+  var tm = Teams.findOne({'_id':Session.get("currentTeamId")});
+  if(!tm) {
+    return false;
+  }
+  // TODO: Allow the user to pick how to sort members
+  console.log(Meteor.users.find({_id: { $in : Meteor.user()._id }}).count());
+  //return members;
+  return true;
 };
 
 // The members on a team
@@ -26,8 +46,12 @@ Template.team.members = function () {
   if(!tm) {
     return false;
   }
-  var members = Meteor.users.find({_id: { $in : tm.members }}).fetch();
-
+  // TODO: Allow the user to pick how to sort members
+  var members = Meteor.users.find({
+                                    _id: { $in : tm.members }
+                                  },{
+                                    sort: {"profile.name": 1}
+                                  }).fetch();
   return members;
 };
 
@@ -83,14 +107,26 @@ Template.team.tzTime = function () {
   return moment().tz(this.profile.latest.timezone).format('h:mm a');
 };
 
+Template.team.tzOffset = function () {
+  if(this.profile.latest.timezone === undefined)
+    return 'Unknown Offset';
+  return 'UTC'+moment().tz(this.profile.latest.timezone).format('ZZ');
+};
+
+Template.team.updatedTimeAgo = function () {
+  if(this.profile.latest.timestamp === undefined)
+    return 'never';
+  return moment(this.profile.latest.timestamp, 'X').utc().fromNow();
+};
+
 Template.team.rendered = function() {
   var height = $(document).height()/2;
-  if(height > 500) height = 500;
+  if(height > 200) height = 200;
   $('#map').css('height',height);
 };
 
 Template.team.events({
-  'click input.inviteToTeam' : function () {
+  'click button.inviteToTeam' : function () {
     var email = document.getElementById("inviteToTeamEmail").value;
     Meteor.call('inviteToTeam',Session.get('currentTeamId'),email,function(err, data){
       // Invite Complete

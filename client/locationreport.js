@@ -64,7 +64,7 @@ Template.header.rendered = function () {
                 minZoom:2
               }).fitWorld();
 
-    L.tileLayer('https://www.mapbox.com/v3/ushahidi.gm9nnleo/{z}/{x}/{y}.png', {
+    L.tileLayer('https://mapbox.com/v3/ushahidi.gm9nnleo/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
       }).addTo(map);
