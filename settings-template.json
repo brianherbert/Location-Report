@@ -1,6 +1,7 @@
 {
   "title": "Location Report",
   "updateCronTimer": "3600000",
+  "emailAddress": "site_sent_from@email.com",
   "services": {
     "twitter": {
       "consumer_key": "****",

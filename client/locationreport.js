@@ -1,3 +1,8 @@
+Teams = new Meteor.Collection("teams");
+Locations = new Meteor.Collection("locations");
+
+Meteor.subscribe("teams");
+
 var map;
 var globalLayerGroup;
 L.Icon.Default.imagePath = '/packages/leaflet/images';
@@ -5,9 +10,6 @@ L.Icon.Default.imagePath = '/packages/leaflet/images';
 Meteor.startup(function () {
   Session.set('currentTeamId', false);
 });
-
-Teams = new Meteor.Collection("teams");
-Locations = new Meteor.Collection("locations");
 
 Router.configure({
   layoutTemplate: 'layout'
@@ -41,7 +43,9 @@ Template.page.teams = function () {
   if(Meteor.user() == null)
     return false;
 
-  var teams = Teams.find({members:Meteor.user()._id}, {sort: {name: -1}});
+  var teams = Teams.find({}, {sort: {name: 1}}).fetch();
+
+  console.log(teams);
   return teams;
 };
 
@@ -64,9 +68,9 @@ Template.header.rendered = function () {
                 minZoom:2
               }).fitWorld();
 
-    L.tileLayer('https://mapbox.com/v3/ushahidi.gm9nnleo/{z}/{x}/{y}.png', {
+    L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
         maxZoom: 18,
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+        attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
       }).addTo(map);
   }
 };
@@ -116,6 +120,12 @@ Template.page.events({
   'click button.createTeam' : function () {
     var teamName = document.getElementById("newTeamName").value;
     var id = teamName.toLowerCase();
+
+    if(Teams.find({_id : id}).count() > 0) {
+      console.log('TODO: Warn that the team already exists');
+      return false;
+    }
+
     Teams.insert({_id: id,
                   name: teamName,
                   adminId: Meteor.userId(),

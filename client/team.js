@@ -1,3 +1,5 @@
+Meteor.subscribe("allUsers");
+
 
 // A single team
 Template.team.team = function () {
@@ -16,16 +18,11 @@ Template.team.isAdministrator = function () {
     return false;
   }
 
-  var admin = Meteor.users.findOne({'_id':tm.adminId});
-  if(!admin) {
+  if (Meteor.user()._id != tm.adminId) {
     return false;
   }
 
-  if (Meteor.user()._id != admin._id) {
-    return false;
-  }
-
-  return admin;
+  return true;
 };
 
 // True is the current user is a member of the current team
@@ -52,6 +49,7 @@ Template.team.members = function () {
                                   },{
                                     sort: {"profile.name": 1}
                                   }).fetch();
+  console.log(tm.members);
   return members;
 };
 
@@ -121,7 +119,7 @@ Template.team.updatedTimeAgo = function () {
 
 Template.team.rendered = function() {
   var height = $(document).height()/2;
-  if(height > 200) height = 200;
+  if(height > 400) height = 400;
   $('#map').css('height',height);
 };
 
@@ -131,6 +129,7 @@ Template.team.events({
     Meteor.call('inviteToTeam',Session.get('currentTeamId'),email,function(err, data){
       // Invite Complete
     });
+    document.getElementById("inviteToTeamEmail").value = '';
   },
   'click a.getGeoJson' : function () {
     $('.geoJsonArea').removeClass('hidden');
@@ -146,6 +145,11 @@ Template.team.events({
     });
     Meteor.call('updateInstagramGeo',this._id,function(err, data){
       // Updating Instagram Geo Complete
+    });
+  },
+  'click a.removeMember' : function () {
+    Meteor.call('removeMember',Session.get('currentTeamId'),this._id,function(err, data){
+      // Member removed
     });
   }
 });

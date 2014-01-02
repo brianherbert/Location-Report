@@ -45,6 +45,15 @@
 </template>
 
 <template name="page">
+
+  <div class="row">
+    <div class="col-md-12">
+      <hr/>
+      <p class="lead text-success"><strong>Location Report</strong> is your place to create teams of geographically diverse people to quickly see where they are and what timezone they are in using their location data on social media.</p>
+      <hr/>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-md-4">
 
@@ -53,7 +62,7 @@
       <h2>Your Teams</h2>
       <ul class="list-unstyled">
       {{#each teams}}
-        {{> teamLi}}
+        <li><a href="/team/{{_id}}/">{{name}}</a></li>
       {{/each}}
       </ul>
 
@@ -138,10 +147,6 @@
 
 </template>
 
-<template name="teamLi">
-  <li><a href="/team/{{_id}}/">{{name}}</a></li>
-</template>
-
 <template name="team">
 
   <div class="row">
@@ -168,7 +173,12 @@
       <h4>Members</h4>
       <ul class="list-unstyled">
         {{#each members}}
-          <li><a href="#" class="selectFlag" data-userId="{{_id}}">{{profile.name}}</a></li>
+          <li>
+            <a href="#" class="selectFlag" data-userId="{{_id}}">{{profile.name}}</a>
+            {{#if isAdministrator}}
+            <span class="pull-right"><a href="#" class="removeMember"><i class="fa fa-times text-danger"></i></a></span>
+            {{/if}}
+          </li>
         {{/each}}
 
         {{#if isAdministrator}}
@@ -194,8 +204,8 @@
               {{#if profile.latest.timezone}}
               <ul class="list-unstyled">
                 <li>{{tzOffset}}</li>
-                <li><i class="fa fa-clock-o text-muted"></i> {{tzTime}}</li>
-                <li><i class="fa fa-calendar-o text-muted"></i> {{tzDate}}</li>
+                <li class="text-muted"><i class="fa fa-clock-o text-muted"></i> {{tzTime}}</li>
+                <li class="text-muted"><i class="fa fa-calendar-o text-muted"></i> {{tzDate}}</li>
               </ul>
               {{/if}}
               <ul class="list-unstyled">
